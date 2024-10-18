@@ -11,7 +11,11 @@ public class menubutton : MonoBehaviour
     {
         PlayerPrefs.SetInt("score", 0);
         SceneManager.LoadScene("Game");
+        
     }
-
+    public void LoadSceneByName(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
+    }
 
 }

@@ -43,18 +43,15 @@ public class bridgeextend : MonoBehaviour
         
         if (transform.localScale.y > 0.5)
         {
-            rb.AddTorque(transform.localScale.y * -125);
-
+            rb.AddTorque(transform.localScale.y * -140);
         }
         else
         {
             rb.AddTorque(-65);
         }
+        GameManager.instance.StartTimers();
 
         //rb.AddTorque(transform.localScale.y*-40);
         //player cross
-
     }
-
-    
 }

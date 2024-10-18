@@ -5,110 +5,74 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 public class GameManager : MonoBehaviour
-{
-    // Start is called before the first frame update
+{ 
     //making hit variable
     public bool hit = false;
+    public static GameManager instance;
+    [SerializeField] private Vector2 platformSpawnCoords;
+    [SerializeField] GameObject platformprefab;
+    [SerializeField] TMP_Text scoreText;
     public int score 
     {
         //this runs when you read the variable 
         get
         {
             return PlayerPrefs.GetInt("score");
-
         }
         //this runs when you change the variable 
         set
         {
             PlayerPrefs.SetInt("score", value);
             scoreText.text = score.ToString();
-
         }
     }
 
-    public static GameManager instance;
     private void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+        } else
+        {
+            Destroy(this);
+        }
     }
-    [SerializeField] private Vector2 platformSpawnCoords;
-    [SerializeField] GameObject platformprefab;
-    [SerializeField] TMP_Text scoreText;
 
-    private void Spawn()
-    {
-        Instantiate(platformprefab, new Vector3(platformSpawnCoords.x + Random.Range(-2, 7), -2.859f, 0f), Quaternion.identity);
-    }
     void Start()
     {
-        StopCoroutine(WinLossTimer());
         scoreText.text = score.ToString();
-        StartCoroutine(WinLossTimer());
 
         // platform
         Spawn();
 
     }
-
-
-    //PUT THIS IN LATER
-    /*
-    public void DeletePlatform()
+    private void Spawn()
     {
-        Debug.Log(hit);
-        if (hit == true)
-        {
-            
-            GameObject[] platforms = GameObject.FindGameObjectsWithTag("platform");
-            foreach (GameObject platform in platforms)
-            {
-                Destroy(platform);
-            }
-        }
+        Instantiate(platformprefab, new Vector3(platformSpawnCoords.x + Random.Range(-2, 7), -2.859f, 0f), Quaternion.identity);
     }
-    */
+
+    public void StartTimers()
+    {
+        StartCoroutine(WinLossTimer());
+    }
 
     IEnumerator WinLossTimer()
     {
         print("starttimer");
 
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(8f);
         if (hit == false)
         {
             print("lose");
-            StartCoroutine(GameOverCoroutine());
+            score = 0;
+            SceneManager.LoadScene("lose");
         }
         if (hit==true)
         {
             print("win");
-            //DeletePlatform();
-            //Reload game or send to lose scene
-            
-            StartCoroutine(GameOverCoroutine());
-
             score++;
-        }
-    }
-    private IEnumerator GameOverCoroutine()
-    {
-        if (hit == false)
-        {
-            print("SENd to lose");
-            SceneManager.LoadScene("lose");
-            yield return new WaitForSeconds(3f);
-            SceneManager.LoadScene("Start");
-            score = 0;
-        }
-
-        else
-        {
-
-
+            //Reload game
             SceneManager.LoadScene("Game");
         }
-
-        StartCoroutine(WinLossTimer());
-
     }
-
 }
