@@ -1,0 +1,9 @@
+ToDO:
+
+character animation
+timer fix
+walk bridge
+
+Notes:
+hard for the gamemanger to talk to other scripts but makes it easier for other scripts to talk to the manager
+F2/rename sophisticated version of control f. changes the words for a set class of words instead of just the raw word.
