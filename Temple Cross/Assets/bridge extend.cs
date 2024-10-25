@@ -9,6 +9,7 @@ public class bridgeextend : MonoBehaviour
     Rigidbody2D rb;
     //bridge= GameObject bridgePrefab;
     // Start is called before the first frame update
+    [SerializeField] Playerscript player;
     void Start()
     {
         rb= GetComponent<Rigidbody2D>();
@@ -49,6 +50,7 @@ public class bridgeextend : MonoBehaviour
         {
             rb.AddTorque(-65);
         }
+      
         GameManager.instance.StartTimers();
 
         //rb.AddTorque(transform.localScale.y*-40);

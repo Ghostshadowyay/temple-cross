@@ -1,6 +1,7 @@
 ToDO:
+characterm move
+fall of bridge if lose
 
-character animation
 timer fix
 walk bridge
 

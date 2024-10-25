@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Vector2 platformSpawnCoords;
     [SerializeField] GameObject platformprefab;
     [SerializeField] TMP_Text scoreText;
+    [SerializeField] Playerscript player;
+    GameObject endBarrier;
     public int score 
     {
         //this runs when you read the variable 
@@ -48,7 +50,8 @@ public class GameManager : MonoBehaviour
     }
     private void Spawn()
     {
-        Instantiate(platformprefab, new Vector3(platformSpawnCoords.x + Random.Range(-2, 7), -2.859f, 0f), Quaternion.identity);
+        GameObject platform=Instantiate(platformprefab, new Vector3(platformSpawnCoords.x + Random.Range(-2, 7), -2.859f, 0f), Quaternion.identity);
+        endBarrier = platform.transform.Find("EndBarrier").gameObject;
     }
 
     public void StartTimers()
@@ -59,13 +62,19 @@ public class GameManager : MonoBehaviour
     IEnumerator WinLossTimer()
     {
         print("starttimer");
-
-        yield return new WaitForSeconds(8f);
+        //wait to check if bridge is touching
+        yield return new WaitForSeconds(5f);
+        endBarrier.SetActive(hit);
+        player.StartWalking();
+        //start walking and wait seconds to walk across
+        yield return new WaitForSeconds(4f);
         if (hit == false)
         {
+            //disable end barrier
             print("lose");
             score = 0;
             SceneManager.LoadScene("lose");
+             
         }
         if (hit==true)
         {
@@ -74,5 +83,6 @@ public class GameManager : MonoBehaviour
             //Reload game
             SceneManager.LoadScene("Game");
         }
+       
     }
 }
